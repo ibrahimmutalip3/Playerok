@@ -31,7 +31,15 @@ class GameCategoryCard extends StatelessWidget {
                     color: category.accentColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(18),
                   ),
-                  child: Icon(category.icon, color: category.accentColor, size: 28),
+                  child: category.imagePath != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(18),
+                          child: Image.asset(
+                            category.imagePath!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Icon(category.icon, color: category.accentColor, size: 28),
                 ),
                 if (category.isNew)
                   Positioned(

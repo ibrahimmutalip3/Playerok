@@ -44,14 +44,14 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: Row(
         children: [
-          Container(
-            width: 34,
-            height: 34,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(9),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(9),
+            child: Image.asset(
+              'assets/images/logo.png',
+              width: 34,
+              height: 34,
+              fit: BoxFit.cover,
             ),
-            child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 22),
           ),
           const SizedBox(width: 8),
           Text('Playerok', style: AppTextStyles.h2),

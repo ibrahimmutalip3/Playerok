@@ -13,42 +13,50 @@ class MockData {
       title: 'Steam',
       accentColor: Color(0xFF2B323A),
       icon: Icons.cloud_rounded,
+      imagePath: 'assets/games/png/steam.jpg',
     ),
     GameCategory(
       title: 'Roblox',
       accentColor: Color(0xFFE5484D),
       icon: Icons.videogame_asset_rounded,
+      imagePath: 'assets/games/png/roblox.png',
     ),
     GameCategory(
       title: 'Genshin Impact',
       accentColor: Color(0xFF4C8DFF),
       icon: Icons.auto_awesome_rounded,
+      imagePath: 'assets/games/png/genshin.jpg',
     ),
     GameCategory(
       title: 'Brawl Stars',
       accentColor: Color(0xFFFFC72C),
       icon: Icons.celebration_rounded,
+      imagePath: 'assets/games/png/brawl_stars.jpg',
     ),
     GameCategory(
       title: 'Standoff 2',
       accentColor: Color(0xFF5C6B73),
       icon: Icons.adjust_rounded,
+      imagePath: 'assets/games/png/standoff2.jpg',
     ),
     GameCategory(
       title: 'Minecraft',
       accentColor: Color(0xFF6E8B3D),
       icon: Icons.grid_view_rounded,
       isNew: true,
+      imagePath: 'assets/games/png/minecraft.jpg',
     ),
     GameCategory(
       title: 'Dota 2',
       accentColor: Color(0xFFD9432E),
       icon: Icons.shield_rounded,
+      imagePath: 'assets/games/png/dota2.png',
     ),
     GameCategory(
       title: 'Counter-Strike 2',
       accentColor: Color(0xFFF5A524),
       icon: Icons.gps_fixed_rounded,
+      imagePath: 'assets/games/png/cs2.png',
     ),
     GameCategory(
       title: 'World of Tanks',
@@ -69,6 +77,7 @@ class MockData {
       title: 'GTA 5 Online',
       accentColor: Color(0xFF8B5CF6),
       icon: Icons.directions_car_filled_rounded,
+      imagePath: 'assets/games/png/gta5.jpg',
     ),
   ];
 
