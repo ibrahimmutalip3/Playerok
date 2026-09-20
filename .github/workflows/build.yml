@@ -1,0 +1,118 @@
+name: Build Playerok
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Android APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: playerok_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: playerok-android-apk
+          path: playerok_app/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+  ios:
+    name: iOS IPA (unsigned)
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: playerok_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build iOS without codesign
+        run: flutter build ios --release --no-codesign
+
+      - name: Package unsigned IPA
+        run: |
+          rm -rf build/ipa_work
+          mkdir -p build/ipa_work/Payload
+          cp -R build/ios/iphoneos/Runner.app build/ipa_work/Payload/Runner.app
+          cd build/ipa_work
+          zip -qry ../Playerok.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: playerok-ios-unsigned-ipa
+          path: playerok_app/build/Playerok.ipa
+          if-no-files-found: error
+
+  bundle:
+    name: Bundle ZIP
+    runs-on: ubuntu-latest
+    needs: [android, ios]
+    steps:
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: playerok-android-apk
+          path: dist
+
+      - name: Download IPA
+        uses: actions/download-artifact@v4
+        with:
+          name: playerok-ios-unsigned-ipa
+          path: dist
+
+      - name: Rename APK
+        run: mv dist/app-release.apk dist/Playerok.apk
+
+      - name: Create ZIP
+        run: cd dist && zip -r ../Playerok-builds.zip Playerok.apk Playerok.ipa
+
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Playerok-builds
+          path: Playerok-builds.zip
+          if-no-files-found: error
